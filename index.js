@@ -13,7 +13,7 @@ app.use(cors());
 // app.use(multer().any())
 
 mongoose
-  .connect("mongodb://localhost:27017/image", {
+  .connect("mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/images", {
     useNewUrlParser: true,
     // useUnifiedTopology: true
   })
@@ -78,9 +78,9 @@ app.get("/getAllImages", async (req, res) => {
   let getImage = await Image.find({});
   return res.status(200).json({ status: true, data: getImage });
 });
-app.get("/", (req, res) => {
-  res.send({ name: "avinash", age: 22, dest: "Backend developer" });
-});
+// app.get("/", (req, res) => {
+//   res.send({ name: "avinash", age: 22, dest: "Backend developer" });
+// });
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
