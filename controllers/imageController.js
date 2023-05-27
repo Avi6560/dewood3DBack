@@ -29,7 +29,7 @@ const createImage =async(req,res)=>{
 
         const savedFiles = await Image.create(obj);
         // console.log(savedFiles);
-        res.status(201).json({
+        res.status(201).send({
           message: "Images uploaded and saved successfully.",data: savedFiles,
         });
     } catch (error) {
