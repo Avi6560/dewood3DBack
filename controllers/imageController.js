@@ -20,7 +20,7 @@ const createImage = async (req, res) => {
     }
     console.log("images", imageUrls);
     const obj = {
-      images: imageUrls,
+      imageUrls: imageUrls,
     };
 
     const savedFiles = await Image.create(obj);
