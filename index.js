@@ -39,17 +39,17 @@ mongoose
 //         console.log(error);
 //     }
 // }
-app.get('/getAllImages',async(req,res)=>{
-  try {
-    let getImage = await Image.find({});
-    if(!getImage){
-        return res.status(400).json({status:false, message:"not have any images"})
-    }
-    return res.status(200).json({ status: true, data: getImage });
-} catch (error) {
-    console.log(error);
-}
-})
+// app.get('/getAllImages',async(req,res)=>{
+//   try {
+//     let getImage = await Image.find({});
+//     if(!getImage){
+//         return res.status(400).json({status:false, message:"not have any images"})
+//     }
+//     return res.status(200).json({ status: true, data: getImage });
+// } catch (error) {
+//     console.log(error);
+// }
+// })
 app.use("/", route);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
