@@ -14,7 +14,7 @@ app.use(cors());
 
 mongoose
   .connect(
-    "mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/images",
+    "mongodb://localhost:27017/decentra",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -28,28 +28,15 @@ mongoose
     console.error(error);
   });
 
-//   const getAllImages= async(req,res)=>{
-//     try {
-//         let getImage = await Image.find({});
-//         if(!getImage){
-//             return res.status(400).json({status:false, message:"not have any images"})
-//         }
-//         return res.status(200).json({ status: true, data: getImage });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-// app.get('/getAllImages',async(req,res)=>{
-//   try {
-//     let getImage = await Image.find({});
-//     if(!getImage){
-//         return res.status(400).json({status:false, message:"not have any images"})
-//     }
-//     return res.status(200).json({ status: true, data: getImage });
-// } catch (error) {
-//     console.log(error);
-// }
-// })
+    app.get('/image/:imageName', (req, res) => {
+    const imageName = req.params.imageName;
+    res.sendFile(`${imageName}`, { root: './public' }, (err) => {
+      if (err) {
+        console.error(err);
+        res.status(404).end();
+      }
+    });
+  });
 app.use("/", route);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

@@ -72,4 +72,16 @@ const getImageById = async (req, res) => {
   }
 };
 
-module.exports = { createImage, getAllImages, getImageById };
+const getImageByName= async(req,res)=>{
+  try {
+    let image=req.params.image;
+    let findImageByName= await Image.findOne({images:image})
+    if(!findImageByName){
+      return res.status(404).json({status:false, message:"image not found"});
+    }
+    return res.json({status:true, message:"image found",data:image});
+  } catch (error) {
+    console.log(error);
+  }
+}
+module.exports = { createImage, getAllImages, getImageById,getImageByName };
