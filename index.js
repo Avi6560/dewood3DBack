@@ -26,6 +26,9 @@ mongoose
     console.error(error);
   });
 
+app.get("/get", (req, res) => {
+  res.send("hello world");
+});
 app.use("/", route);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
