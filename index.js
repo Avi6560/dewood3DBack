@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const { default: mongoose } = require("mongoose");
 const PORT = process.env.PORT || 5000;
 const image = require("./controllers/imageController");
+const Image= require('./models/imageModel')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,9 +28,28 @@ mongoose
     console.error(error);
   });
 
-app.get("/getAllImages", (req, res) => {
-  res.send(image.getAllImages);
-});
+//   const getAllImages= async(req,res)=>{
+//     try {
+//         let getImage = await Image.find({});
+//         if(!getImage){
+//             return res.status(400).json({status:false, message:"not have any images"})
+//         }
+//         return res.status(200).json({ status: true, data: getImage });
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+app.get('/getAllImages',async(req,res)=>{
+  try {
+    let getImage = await Image.find({});
+    if(!getImage){
+        return res.status(400).json({status:false, message:"not have any images"})
+    }
+    return res.status(200).json({ status: true, data: getImage });
+} catch (error) {
+    console.log(error);
+}
+})
 app.use("/", route);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

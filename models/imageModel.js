@@ -8,5 +8,5 @@ const imageSchema= new mongoose.Schema({
     images:{type:Array},
 },{timestamps:true})
 
-module.exports =mongoose.model('dewood3d',imageSchema)
+module.exports =mongoose.model('images',imageSchema)
 
