@@ -14,7 +14,7 @@ app.use(cors());
 
 mongoose
   .connect(
-    "mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/images",
+    "mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/newImages",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -50,6 +50,13 @@ mongoose
 //     console.log(error);
 // }
 // })
+app.get("/image/:filename", (req, res) => {
+  const fileName = req.params.filename;
+  console.log(__dirname);
+  const filePath = __dirname + "/uploads/" + fileName;
+
+  res.sendFile(filePath);
+});
 app.use("/", route);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
