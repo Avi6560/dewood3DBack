@@ -26,7 +26,7 @@ mongoose
     console.error(error);
   });
 
-app.get("/get", (req, res) => {
+app.get("/", (req, res) => {
   res.send("hello world");
 });
 app.use("/", route);
