@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const route= require('./routers/router')
+const route = require("./routers/router");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { default: mongoose } = require("mongoose");
@@ -10,10 +10,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/image", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+mongoose
+  .connect(
+    "mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/images",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
 
   .then(() => {
     console.log("Connected to MongoDB");
@@ -22,8 +26,7 @@ mongoose.connect("mongodb://localhost:27017/image", {
     console.error(error);
   });
 
-
-app.use('/',route)
+app.use("/", route);
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`); 
+  console.log(`Server listening on port ${PORT}`);
 });
