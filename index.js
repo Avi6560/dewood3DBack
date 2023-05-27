@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { default: mongoose } = require("mongoose");
 const PORT = process.env.PORT || 5000;
+const image = require("./controllers/imageController");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,8 +27,8 @@ mongoose
     console.error(error);
   });
 
-app.get("/", (req, res) => {
-  res.send("hello world");
+app.get("/getAllImages", (req, res) => {
+  res.send(image.getAllImages);
 });
 app.use("/", route);
 app.listen(PORT, () => {
