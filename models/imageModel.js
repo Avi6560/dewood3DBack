@@ -6,6 +6,7 @@ const imageSchema = new mongoose.Schema(
     description:{type:String},
     price:{type:String},
     imageUrls: { type: Array },
+    collectionType: { type: Array },
   },
   { timestamps: true }
 );

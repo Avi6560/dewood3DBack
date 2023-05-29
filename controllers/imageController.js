@@ -24,6 +24,7 @@ const createImage = async (req, res) => {
       description:body.description,
       price:body.price,
       imageUrls: imageUrls,
+      collectionType: body.collectionType,
     };
 
     const savedFiles = await Image.create(obj);
