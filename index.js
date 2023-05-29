@@ -5,8 +5,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { default: mongoose } = require("mongoose");
 const PORT = process.env.PORT || 5000;
-const image = require("./controllers/imageController");
-const Image= require('./models/imageModel')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,28 +26,6 @@ mongoose
     console.error(error);
   });
 
-//   const getAllImages= async(req,res)=>{
-//     try {
-//         let getImage = await Image.find({});
-//         if(!getImage){
-//             return res.status(400).json({status:false, message:"not have any images"})
-//         }
-//         return res.status(200).json({ status: true, data: getImage });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-// app.get('/getAllImages',async(req,res)=>{
-//   try {
-//     let getImage = await Image.find({});
-//     if(!getImage){
-//         return res.status(400).json({status:false, message:"not have any images"})
-//     }
-//     return res.status(200).json({ status: true, data: getImage });
-// } catch (error) {
-//     console.log(error);
-// }
-// })
 app.get("/image/:filename", (req, res) => {
   const fileName = req.params.filename;
   console.log(__dirname);
