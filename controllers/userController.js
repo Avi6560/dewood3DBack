@@ -84,7 +84,7 @@ const login=async(req,res)=>{
       return res.status(400).send({ status: false, message: "Password is not correct" });
     }
     console.log("checkPassword",checkPassword);
-    let token = jwt.sign({ userId: checkValidUser._id }, "crud", {
+    let token = jwt.sign({ userId: checkValidUser._id }, "Product-Management", {
       expiresIn: "1d",
     });
     console.log("token: " + token);
