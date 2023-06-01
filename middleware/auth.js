@@ -1,73 +1,26 @@
 const jwt = require("jsonwebtoken");
-
-const authentication = (req, res, next) => {
+const key = "sahilyadavsahilyadavsahilyadavsahil";
+const User = require("../models/userModel");
+const Auth = async (req, res, next) => {
   try {
-    let bearerHeader = req.headers.authorization;
-    if (typeof bearerHeader == "undefined")
-      return res.status(400).send({ status: false, message: "Token is missing" });
-
-    let bearerToken = bearerHeader.split(" ");
-    let token = bearerToken[1];
-    console.log(token)
-    req.decodedToken = jwt.verify(token, "Product-Management", {ignoreExpiration: true});
-    console.log("token",req.decodedToken)
-    // if (!req.decodedToken)
-    //   return res.status(400).send({ status: false, msg: "Invalid token" });
-
-    const tokenExpire = req.decodedToken.exp;
-    if (tokenExpire * 1000 < Date.now())
-
-      return res.status(400).send({ status: false, msg: "token Expires" });
-    // req.decodedToken = decodedToken;
-    // console.log("hii")
+    const token = req.headers.authorization;
+    // console.log(token, "I am token in auth page");
+    const verifyToken = jwt.verify(token, key);
+    // console.log(`${verifyToken} I AM VERIFY TOKEN,, ONLY ID WHEN `);
+    const rootUser = await User.findOne({
+      _id: verifyToken._id,
+      "tokens.token": token,
+    });
+    // console.log(rootUser, "token user");
+    if (!rootUser) {
+      throw new Error("USER NOT FOUND BY AUTH PAGE ");
+    }
+    req.token = token;
+    req.rootUser = rootUser;
+    req.userId = rootUser._id;
     next();
-  } catch (err) {
-    if (err.name === "TokenExpiredError") {
-      return res
-        .status(403)
-        .send({ status: false, msg: "token toh expire hoh gayi" });
-    }
-    if (err.message.includes("invalid token")) {
-      return res
-        .status(400)
-        .send({ msg: "bad request..the token you are trying is invalid" });
-    }
-    // return res.status(500).send({err})
-    console.log(err)
-    res.status(500).send({ status: false, error: err.message });
+  } catch (error) {
+    res.status(401).json({ status: 401, message: "Unautherised no token provide" });
   }
 };
-
-// const authorization = async (req, res, next) => {
-//   try {
-//     let loggedInUser = req.decodedToken.userId;
-//     let loginUser=req.params.userId;
-
-//     if (req.params.userId) {
-//       if (!mongoose.isValidObjectId(req.params.userId))
-//         return res.status(400).send({ status: false, message: "Enter a valid user Id" });
-        
-//       if (loggedInUser !== loginUser)
-//       return res.status(403).send({ status: false, message: "Error!! authorization failed" });
-
-//       let checkUserId = await userModel.findById(req.params.userId);
-
-//       if (!checkUserId)
-//         return res.status(404).send({ status: false, message: "User not found" });
-//       loginUser = checkUserId._id.toString();
-     
-        
-//     }
-
-//     if (!loginUser)
-//       return res
-//         .status(400)
-//         .send({ status: false, message: "User-id is required" });
-
-//     next();
-//   } catch (err) {
-//     res.status(500).send({ status: false, error: err.message });
-//   }
-// };
-
-module.exports = { authentication };
+module.exports = Auth;

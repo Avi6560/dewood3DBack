@@ -12,7 +12,7 @@ app.use(cors());
 mongoose.set("strictQuery", true);
 mongoose
   .connect(
-    "mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/newImages",
+    "mongodb+srv://Avi9984:JM6hnTiQIRViVdA3@cluster0.qfc4n.mongodb.net/dewwwwod3d",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -28,10 +28,10 @@ mongoose
 
 app.get("/image/:filename", (req, res) => {
   const fileName = req.params.filename;
-  console.log(__dirname);
+  // console.log(__dirname);
   const filePath = __dirname + "/uploads/" + fileName;
 
-  res.sendFile(filePath);
+  res.sendFile(filePath); 
 });
 app.use("/", route);
 app.listen(PORT, () => {
