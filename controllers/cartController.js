@@ -1,4 +1,3 @@
-const Cart = require("../models/cartModel");
 const Item = require("../models/itemModel");
 const User = require("../models/userModel");
 
@@ -17,16 +16,12 @@ const addToCart = async (req, res) => {
     // console.log(item, "item");
     if (item) {
       // console.log("Products already added in cart");
-      return res
-        .status(400)
-        .json({ message: "Products already added in cart" });
+      return res.status(400).json({ message: "Products already added in cart" });
     } else {
       if (getUser) {
         const cartData = await getUser.addcartdata(cart);
         await getUser.save();
         console.log(cartData.price);
-        let quantity=1
-        totalPrice += cartData.price * quantity;
         res.status(201).json({data:{getUser, totalPrice}});
       } else {
         res.status(401).json({ message: "User not matching" });
@@ -37,8 +32,8 @@ const addToCart = async (req, res) => {
   }
 };
 
-const getCart = async (req, res) => {};
 
-module.exports = { addToCart, getCart };
+
+module.exports = { addToCart,  };
 
 

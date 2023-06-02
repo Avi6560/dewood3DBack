@@ -9,6 +9,7 @@ const authorization = require("../middleware/auth");
 // user login api
 router.post("/register", User.register);
 router.post("/login", User.login);
+router.get("/getUserBy/:userId", User.getUserById);
 
 // item apis
 router.post("/upload", upload.array("images"), image.createImage);

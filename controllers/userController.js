@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 const validEmail = (Email) => {
   if (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(Email)) {
     return false;
@@ -116,10 +117,35 @@ const login = async (req, res) => {
     res.setHeader("x-api-key", token);
     res
       .status(200)
-      .send({ status: true, message: "Successfully Login", data: token });
+      .json({ status: true, message: "Successfully Login", data: token });
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { register, login };
+const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    console.log(userId, "user ki sep id");
+    if (!mongoose.isValidObjectId(userId)) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid user id." });
+    }
+    const checkValidUser = await User.findById({ _id: userId });
+    console.log(checkValidUser, "i am checking or not");
+    if (!checkValidUser) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+    console.log(checkValidUser.carts, "Check");
+    return res.status(200).json({
+      status: true,
+      message: "Cart found by spefice user",
+      data: checkValidUser,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { register, login, getUserById };

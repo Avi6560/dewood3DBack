@@ -31,7 +31,7 @@ app.get("/image/:filename", (req, res) => {
   // console.log(__dirname);
   const filePath = __dirname + "/uploads/" + fileName;
 
-  res.sendFile(filePath); 
+  res.sendFile(filePath);
 });
 app.use("/", route);
 app.listen(PORT, () => {
