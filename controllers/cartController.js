@@ -34,6 +34,33 @@ const addToCart = async (req, res) => {
 
 
 
-module.exports = { addToCart,  };
+const removeCart = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const cartId = req.body.cartId;
+    if(!mongoose.isValidObjectId(userId)){
+      return res.status(400).json({status:false, message:"invalid user id"})
+    }
+    const findUser = await User.findById({ _id: userId });
+    const cartItemsIndex = findUser.carts.findIndex(
+      (item) => item._id == cartId
+    );
+    if (cartItemsIndex !== -1) {
+      findUser.carts.splice(cartItemsIndex, 1);
+      let updateCart = await User.updateOne({_id:userId},{
+        "$set":{
+          "carts":findUser.carts
+        }
+      })
+      return res.status(200).json({status:true, message:"Cart Remove successfully"})
+    }else{
+      return res.status(404).json({status:false, message:"Cart does not in cart"})
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { addToCart,removeCart  };
 
 

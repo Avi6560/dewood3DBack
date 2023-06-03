@@ -113,11 +113,16 @@ const login = async (req, res) => {
     //   expiresIn: "1d",
     // });
     const token = await checkValidUser.generateAuthtoken();
+    console.log(checkValidUser,"maderchod");
     console.log("token: " + token);
-    res.setHeader("x-api-key", token);
+    const result = {
+      token,
+      checkValidUser
+    }
+    // res.setHeader("x-api-key", token);
     res
       .status(200)
-      .json({ status: true, message: "Successfully Login", data: token });
+      .json({ status: true, message: "Successfully Login", data: result});
   } catch (error) {
     console.log(error);
   }
@@ -148,4 +153,18 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUserById };
+const userLogout = async (req, res) => {
+  console.log(req.rootUser.tokens);
+  // console.log("error: ");
+  try {
+    req.rootUser.tokens = req.rootUser.tokens.filter((curElem) => {
+      return curElem.token !== req.token;
+    });
+    req.rootUser.save();
+    res.status(201).json({ status: true, message: "User logout successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { register, login, getUserById,userLogout };
