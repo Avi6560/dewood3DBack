@@ -126,14 +126,12 @@ const login = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log(userId, "user ki sep id");
     if (!mongoose.isValidObjectId(userId)) {
       return res
         .status(400)
         .json({ status: false, message: "Invalid user id." });
     }
     const checkValidUser = await User.findById({ _id: userId });
-    console.log(checkValidUser, "i am checking or not");
     if (!checkValidUser) {
       return res.status(404).json({ status: false, message: "User not found" });
     }
@@ -148,4 +146,18 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUserById };
+const userLogout = async (req, res) => {
+  console.log(req.rootUser.tokens);
+  // console.log("error: ");
+  try {
+    req.rootUser.tokens = req.rootUser.tokens.filter((curElem) => {
+      return curElem.token !== req.token;
+    });
+    req.rootUser.save();
+    res.status(201).json({ status: true, message: "User logout successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { register, login, getUserById, userLogout };
