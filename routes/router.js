@@ -20,7 +20,7 @@ router.get("/image/:image", image.getImageByName);
 
 // cart apis
 router.post("/addToCart", authorization, Cart.addToCart);
-router.delete("/deleteCart/:userId", Cart.removeCart);
+router.post("/deleteCart/:userId", Cart.removeCart);
 // router.get("/getCart", Cart.getCart);
 
 module.exports = router;
