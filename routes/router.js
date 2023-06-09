@@ -10,9 +10,9 @@ const authorization = require("../middleware/auth");
 // user login api
 router.post("/register", User.register);
 router.post("/login", User.login);
-router.get("/getUserBy/:userId", authorization,User.getUserById);
-router.post("/logOut", authorization, User.userLogout);
-
+router.get("/getUserBy/:userId", User.getUserById);
+// user logout
+router.post('/logOut', authorization,User.userLogout)
 // item apis
 router.post("/upload", upload.array("images"), image.createImage);
 router.get("/getAllImages", image.getAllImages);
@@ -21,7 +21,8 @@ router.get("/image/:image", image.getImageByName);
 
 // cart apis
 router.post("/addToCart", authorization, Cart.addToCart);
-router.delete("/deleteCart/:userId",authorization ,Cart.removeCart);
+router.post("/deleteCart/:userId", Cart.removeCart);
+// router.get("/getCart", Cart.getCart);
 
 
 // buy apis

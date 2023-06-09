@@ -90,11 +90,16 @@ const login = async (req, res) => {
     //   expiresIn: "1d",
     // });
     const token = await checkValidUser.generateAuthtoken();
+    console.log(checkValidUser,"maderchod");
     console.log("token: " + token);
-
-    console.log(checkValidUser,"valid");
-    res.status(200).json({ status: true, message: "Successfully Login", data: token });
-
+    const result = {
+      token,
+      checkValidUser
+    }
+    // res.setHeader("x-api-key", token);
+    res
+      .status(200)
+      .json({ status: true, message: "Successfully Login", data: result});
   } catch (error) {
     console.log(error);
   }
@@ -123,6 +128,7 @@ const getUserById = async (req, res) => {
 
 const userLogout = async (req, res) => {
   console.log(req.rootUser.tokens);
+  // console.log("error: ");
   try {
     req.rootUser.tokens = req.rootUser.tokens.filter((curElem) => {
       return curElem.token !== req.token;
@@ -134,4 +140,4 @@ const userLogout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUserById, userLogout };
+module.exports = { register, login, getUserById,userLogout };
