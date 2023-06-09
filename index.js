@@ -3,6 +3,7 @@ const app = express();
 const route = require("./routes/router");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const Razorpay= require('razorpay')
 const { default: mongoose } = require("mongoose");
 const PORT = process.env.PORT || 5000;
 
@@ -34,6 +35,23 @@ app.get("/image/:filename", (req, res) => {
   res.sendFile(filePath);
 });
 app.use("/", route);
+
+
+let razorpay = new Razorpay({key_id:'rzp_test_rctEhk9DkJO7hU',key_secret:'dH3vdnM9vuumH6JkYg8mSoJB'})
+
+app.post('/payment',async(req,res)=>{
+  const {amount}=req.body
+
+  razorpay.orders.create({
+    amount:amount*100,
+    currency: 'USD',
+    receipt:"receipt#1",
+    
+  })
+  return res.status(201).json({status:true, amount })
+})
+
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

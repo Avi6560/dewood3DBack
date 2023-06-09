@@ -42,9 +42,7 @@ const getAllImages = async (req, res) => {
   try {
     let getImage = await Image.find({});
     if (!getImage) {
-      return res
-        .status(400)
-        .json({ status: false, message: "not have any images" });
+      return res.status(400).json({ status: false, message: "not have any images" });
     }
     return res.status(200).json({ status: true, data: getImage });
   } catch (error) {

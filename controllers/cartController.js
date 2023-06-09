@@ -1,6 +1,11 @@
 const { default: mongoose } = require("mongoose");
 const Item = require("../models/itemModel");
 const User = require("../models/userModel");
+const Razorpay = require("razorpay");
+let razorpay = new Razorpay({
+  key_id: "rzp_test_rctEhk9DkJO7hU",
+  key_secret: "dH3vdnM9vuumH6JkYg8mSoJB",
+});
 
 const addToCart = async (req, res) => {
   try {
@@ -16,7 +21,7 @@ const addToCart = async (req, res) => {
         const cartData = await getUser.addcartdata(cart);
         await getUser.save();
         console.log(cartData.price);
-        res.status(201).json({ data: { getUser, totalPrice } });
+        res.status(201).json({status: true,messsage: "Item added to cart successfully",data: getUser});
       } else {
         res.status(401).json({ message: "User not matching" });
       }
@@ -31,8 +36,8 @@ const removeCart = async (req, res) => {
     const userId = req.params.userId;
     const cartId = req.body.cartId;
 
-    if(!mongoose.isValidObjectId(userId)){
-      return res.status(400).json({status:false, message:"invalid user id"})
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ status: false, message: "invalid user id" });
     }
     const findUser = await User.findById({ _id: userId });
     const cartItemsIndex = findUser.carts.findIndex(
@@ -40,18 +45,45 @@ const removeCart = async (req, res) => {
     );
     if (cartItemsIndex !== -1) {
       findUser.carts.splice(cartItemsIndex, 1);
-      let updateCart = await User.updateOne({_id:userId},{
-        "$set":{
-          "carts":findUser.carts
+      let updateCart = await User.updateOne(
+        { _id: userId },
+        {
+          $set: {
+            carts: findUser.carts,
+          },
         }
-      })
-      return res.status(200).json({status:true, message:"Cart Remove successfully"})
-    }else{
-      return res.status(404).json({status:false, message:"Cart does not in cart"})
+      );
+      return res.status(200).json({ status: true, message: "Cart Remove successfully" });
+    } else {
+      return res.status(404).json({ status: false, message: "Cart does not in cart" });
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { addToCart, removeCart };
+const buyNow = async (req, res) => {
+  const { userId, itemId } = req.body;
+  try {
+    // Create an order in Razorpay
+    const order = await razorpay.orders.create({
+      amount: itemId.price * 100, // Convert price to paise (Razorpay uses smallest currency unit)
+      currency: 'USD', // Change this if your currency is different
+      receipt: 'order_receipt', // Unique identifier for the order
+      payment_capture: 1 // Automatically capture the payment
+    });
+
+    // Placeholder response
+    const response = {
+      message: 'Purchase successful!',
+      userId,
+      itemId,
+      order
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports = { addToCart, removeCart, buyNow };

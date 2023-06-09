@@ -4,13 +4,14 @@ const upload = require("../upload");
 const image = require("../controllers/itemController");
 const User = require("../controllers/userController");
 const Cart = require("../controllers/cartController");
+const Buy= require("../controllers/buyController");
 const mid = require("../middleware/auth");
 const authorization = require("../middleware/auth");
 // user login api
 router.post("/register", User.register);
 router.post("/login", User.login);
-router.get("/getUserBy/:userId", User.getUserById);
-router.post('/logOut', authorization,User.userLogout)
+router.get("/getUserBy/:userId", authorization,User.getUserById);
+router.post("/logOut", authorization, User.userLogout);
 
 // item apis
 router.post("/upload", upload.array("images"), image.createImage);
@@ -20,5 +21,12 @@ router.get("/image/:image", image.getImageByName);
 
 // cart apis
 router.post("/addToCart", authorization, Cart.addToCart);
-router.delete("/deleteCart/:userId", Cart.removeCart);
+router.delete("/deleteCart/:userId",authorization ,Cart.removeCart);
+
+
+// buy apis
+router.post('/buyNow', Cart.buyNow);
+
+router.post('/createOrder', Buy.createOrder)
+router.post('/verifyOrder', Buy.verifyOrder)
 module.exports = router;

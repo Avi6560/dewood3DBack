@@ -20,9 +20,7 @@ const Auth = async (req, res, next) => {
     req.userId = rootUser._id;
     next();
   } catch (error) {
-    res
-      .status(401)
-      .json({ status: 401, message: "Unautherised no token provide" });
+    res.status(401).json({ status: 401, message: "Unautherised no token provide" });
   }
 };
 module.exports = Auth;
