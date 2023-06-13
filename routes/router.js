@@ -28,6 +28,8 @@ router.post("/deleteCart/:userId", Cart.removeCart);
 // buy apis
 router.post('/buyNow', Cart.buyNow);
 
-router.post('/createOrder', Buy.createOrder)
+// router.post('/createOrder', Buy.createOrder)
+router.post('/createOrder', Buy.checkout)
+
 router.post('/verifyOrder', Buy.verifyOrder)
 module.exports = router;

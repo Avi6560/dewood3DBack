@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.json())
 mongoose.set("strictQuery", true);
 mongoose
   .connect(
@@ -46,7 +47,7 @@ app.post('/payment',async(req,res)=>{
     amount:amount*100,
     currency: 'USD',
     receipt:"receipt#1",
-    
+
   })
   return res.status(201).json({status:true, amount })
 })
