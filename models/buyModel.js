@@ -1,10 +1,18 @@
-const mongoose=  require('mongoose');
-const ObjectId= mongoose.Schema.Types.ObjectId;
+const mongoose = require("mongoose")
+const paymentSchema = new mongoose.Schema({
+  razorpay_order_id: {
+    type: String,
+    required: true,
+  },
+  razorpay_payment_id: {
+    type: String,
+    required: true,
+  },
+  razorpay_signature: {
+    type: String,
+    required: true,
+  },
+});
 
-const buyModel= new mongoose.Schema({
-    userId:{type:ObjectId,ref:"User",required:true, trim:true},
-    itemId:[{type:ObjectId,ref:"Item",required:true, trim:true}],
-    price:{type:Number, required:true, trim:true},
-},{timestamps:true})
-
-module.exports =mongoose.model("BuyProduct",buyModel)
+const Payment = mongoose.model("Payment", paymentSchema);
+module.exports = Payment;

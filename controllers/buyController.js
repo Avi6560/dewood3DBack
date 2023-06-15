@@ -3,7 +3,8 @@ const User = require("../models/userModel");
 const Buy = require("../models/buyModel");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-
+const Payment = require("../models/buyModel")
+const   key_secret= "dH3vdnM9vuumH6JkYg8mSoJB"
 let razorpay = new Razorpay({
   key_id: "rzp_test_rctEhk9DkJO7hU",
   key_secret: "dH3vdnM9vuumH6JkYg8mSoJB",

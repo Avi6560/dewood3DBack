@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 const Auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    console.log(token, "I am token in auth page");
+    // console.log(token, "I am token in auth page");
     const verifyToken = jwt.verify(token, key);
     console.log(`${verifyToken} I AM VERIFY TOKEN,, ONLY ID WHEN `);
     const rootUser = await User.findOne({
