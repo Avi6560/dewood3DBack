@@ -67,7 +67,7 @@ const buyNow = async (req, res) => {
   try {
     // Create an order in Razorpay
     const order = await razorpay.orders.create({
-      amount: itemId.price * 100, // Convert price to paise (Razorpay uses smallest currency unit)
+      amount: Number(itemId.price * 100), // Convert price to paise (Razorpay uses smallest currency unit)
       currency: 'USD', // Change this if your currency is different
       receipt: 'order_receipt', // Unique identifier for the order
       payment_capture: 1 // Automatically capture the payment
