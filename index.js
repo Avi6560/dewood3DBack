@@ -38,19 +38,19 @@ app.get("/image/:filename", (req, res) => {
 app.use("/", route);
 
 
-let razorpay = new Razorpay({key_id:'rzp_test_rctEhk9DkJO7hU',key_secret:'dH3vdnM9vuumH6JkYg8mSoJB'})
+// let razorpay = new Razorpay({key_id:'rzp_test_rctEhk9DkJO7hU',key_secret:'dH3vdnM9vuumH6JkYg8mSoJB'})
 
-app.post('/payment',async(req,res)=>{
-  const {amount}=req.body
+// app.post('/payment',async(req,res)=>{
+//   const {amount}=req.body
 
-  razorpay.orders.create({
-    amount:amount*100,
-    currency: 'USD',
-    receipt:"receipt#1",
+//   razorpay.orders.create({
+//     amount:amount*100,
+//     currency: 'USD',
+//     receipt:"receipt#1",
 
-  })
-  return res.status(201).json({status:true, amount })
-})
+//   })
+//   return res.status(201).json({status:true, amount })
+// })
 
 
 app.listen(PORT, () => {
