@@ -40,7 +40,7 @@ const createImage = async (req, res) => {
 
 const getAllImages = async (req, res) => {
   try {
-    let getImage = await Image.find({});
+    let getImage = await Image.find({}).sort({ createdAt: -1 });
     if (!getImage) {
       return res.status(400).json({ status: false, message: "not have any images" });
     }

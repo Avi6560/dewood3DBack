@@ -29,7 +29,7 @@ const checkout = async (req, res) => {
   // console.log("he");
   // console.log(req.body,"mere body");
   var options = {
-    amount: Number(req.body.amount * 100), // amount in the smallest currency unit
+    amount: Number(req.body.amount / 100), // amount in the smallest currency unit
     currency: "INR",
   };
   const order = await razorpay.orders.create(options);
