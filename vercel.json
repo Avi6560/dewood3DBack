@@ -3,7 +3,7 @@
     "builds": [
       {
         "src": "./index.js",
-        "use": "@now/node"
+        "use": "@vercel/node"
       }
     ],
     "routes": [
@@ -11,5 +11,15 @@
         "src": "/(.*)",
         "dest": "index.js"
       }
-    ]
+    ],
+    "functions": {
+      "largeFunction": {
+        "maxSize": "100mb",
+        "src": "largeFunction.js"
+      },
+      "smallFunction": {
+        "maxSize": "1mb",
+        "src": "smallFunction.js"
+      }
+    }
   }
