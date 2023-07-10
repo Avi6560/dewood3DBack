@@ -3,14 +3,14 @@ const app = express();
 const route = require("./routes/router");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const Razorpay= require('razorpay')
+const Razorpay = require("razorpay");
 const { default: mongoose } = require("mongoose");
 const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-app.use(express.json())
+app.use(cors(["https://deod-new.vercel.app/", "http://localhost:4200"]));
+app.use(express.json());
 mongoose.set("strictQuery", true);
 mongoose
   .connect(
